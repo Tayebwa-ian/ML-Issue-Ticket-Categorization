@@ -3,17 +3,25 @@
 
 from flask import Flask
 from os import getenv
+from flask import Flask, jsonify, make_response
 from flask_restful import Api
+import joblib
 
 
 # create the app instance
 app = Flask(__name__)
-# creation of API instance with the flask app instance
+# load the model
+# model = joblib.load('random_forest_model.pkl')
 api = Api(app)
 
-from views.interface import *
-# register urls to the resource
-api.add_resource(Issues, '/connect')
+from .core.views.interface import IssueList
+
+api.add_resource(IssueList, '/status')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """json 404 page"""
+    return make_response(jsonify({"error": "Resource (enpoint Not) found"}), 404)
 
 # run this file to run the app
 if __name__ == "__main__":

@@ -2,3 +2,4 @@
 ai_venv
 *__
 dataset
+predict.db
