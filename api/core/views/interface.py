@@ -2,11 +2,11 @@
 """API interface module for interacting with the AI model"""
 from flask_restful import Resource
 from flask import jsonify, make_response, request
-from ..serializers.issue import IssueSchema 
+from ..serializers.issue import IssueSchema
 from marshmallow import ValidationError, EXCLUDE
 # from app import model
 from ..utils.utils import data_preprocessor
-from Storage.storage import Issue
+from ...Storage.storage import Issue
 
 
 issue_schema = IssueSchema(unknown=EXCLUDE)

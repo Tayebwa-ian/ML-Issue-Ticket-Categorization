@@ -1,7 +1,7 @@
 #!/usr/bin/python3"
 """Issue Model - Module"""
 from datetime import datetime
-import Storage
+from ..Storage import storage
 from sqlalchemy import String, Column, Integer, DateTime, Text
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -20,7 +20,7 @@ class Issue(Base):
         url: the url of the origin of the issue
         prediction: what the model predicted
     """
-    __tablename__ = 'reviews'
+    __tablename__ = 'issues'
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime(), default=datetime.now())
     updated_at = Column(DateTime(), default=datetime.now())
@@ -38,12 +38,12 @@ class Issue(Base):
             and save to JSON file
         """
         self.updated_at = datetime.now()
-        Storage.storage.new(self)
-        Storage.storage.save()
+        storage.new(self)
+        storage.save()
 
     def delete(self) -> None:
         """delete the current instance from the storage"""
-        Storage.storage.delete(self)
+        storage.delete(self)
 
     def get(self, id):
         """
@@ -75,4 +75,4 @@ class Issue(Base):
                 if hasattr(self, field):
                         setattr(self, field, kwargs[field])
             self.updated_at = datetime.now()
-            Storage.storage.save()
+            storage.save()

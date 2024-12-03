@@ -1,21 +1,34 @@
 #!/usr/bin/python3
 """Engine - Module"""
-from flask_sqlalchemy import SQLAlchemy
-from app import app
-from Storage.storage import Issue, Base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from ..storage import Base
+from os import getenv
 
 
 class Engine:
     """Set up a connection to a database"""
 
     __session = None
-    __db = None
+    __engine = None
 
     def __init__(self):
         """intialize the Engine"""
-        # setup connection to sqllite
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///predict.db'
-        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        # setup connection to MySQL
+        TICKET_MYSQL_USER = getenv('TICKET_MYSQL_USER')
+        TICKET_MYSQL_PWD = getenv('TICKET_MYSQL_PWD')
+        TICKET_MYSQL_HOST = getenv('TICKET_MYSQL_HOST')
+        TICKET_MYSQL_DB = getenv('TICKET_MYSQL_DB')
+        TICKET_ENV = getenv('TICKET_ENV')
+        exec_db = 'mysql+mysqldb://{}:{}@{}/{}'.format(
+                                            TICKET_MYSQL_USER,
+                                            TICKET_MYSQL_PWD,
+                                            TICKET_MYSQL_HOST,
+                                            TICKET_MYSQL_DB
+                                                )
+        self.__engine = create_engine(exec_db, pool_pre_ping=True)
+        if TICKET_ENV == 'test':
+            Base.metadata.drop_all(self.__engine)
 
     def new(self, obj):
         """
@@ -39,14 +52,16 @@ class Engine:
 
     def reload(self):
         """
-            create tables in database
+            create table in database
         """
-        self.__db = SQLAlchemy(model_class=Base)
-        self.__db.init_app(app)
-        with app.app_context():
-            self.__db.create_all()
-        self.__session = self.__db.session
+        Base.metadata.create_all(self.__engine)
+        session_db = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_db)
+        self.__session = Session()
 
-    def get_db(self):
-        """Return the database object"""
-        return self.__db
+    def close(self) -> None:
+        """
+            Closing the session
+        """
+        self.reload()
+        self.__session.close()

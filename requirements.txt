@@ -7,12 +7,12 @@ blinker @ file:///work/perseverance-python-buildout/croot/blinker_1698846408677/
 boltons @ file:///work/perseverance-python-buildout/croot/boltons_1698851177130/work
 Bottleneck @ file:///croot/bottleneck_1731058641041/work
 Brotli @ file:///croot/brotli-split_1714483155106/work
-certifi @ file:///croot/certifi_1725551672989/work/certifi
+certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1725278078093/work/certifi
 cffi @ file:///croot/cffi_1726856441404/work
 charset-normalizer @ file:///croot/charset-normalizer_1721748349566/work
 click @ file:///work/perseverance-python-buildout/croot/click_1698845879718/work
 comm @ file:///home/conda/feedstock_root/build_artifacts/comm_1710320294760/work
-conda @ file:///croot/conda_1732198180642/work
+conda @ file:///home/conda/feedstock_root/build_artifacts/conda_1732552591380/work
 conda-content-trust @ file:///croot/conda-content-trust_1714483159009/work
 conda-libmamba-solver @ file:///croot/conda-libmamba-solver_1727775630457/work/src
 conda-package-handling @ file:///croot/conda-package-handling_1718138267740/work
@@ -26,7 +26,9 @@ distro @ file:///croot/distro_1714488253808/work
 exceptiongroup @ file:///home/conda/feedstock_root/build_artifacts/exceptiongroup_1720869315914/work
 executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1725214404607/work
 Flask @ file:///croot/flask_1716545870149/work
+flask-marshmallow @ file:///home/conda/feedstock_root/build_artifacts/flask-marshmallow_1716553688037/work
 Flask-RESTful @ file:///work/perseverance-python-buildout/croot/flask-restful_1698886520551/work
+Flask-SQLAlchemy @ file:///croot/flask-sqlalchemy_1712567272472/work
 fonttools @ file:///croot/fonttools_1713551344105/work
 frozendict @ file:///croot/frozendict_1713194832637/work
 greenlet @ file:///croot/greenlet_1702059959679/work
@@ -37,7 +39,7 @@ ipython @ file:///home/conda/feedstock_root/build_artifacts/ipython_172986637495
 itsdangerous @ file:///croot/itsdangerous_1716533337253/work
 jedi @ file:///home/conda/feedstock_root/build_artifacts/jedi_1731317204262/work
 Jinja2 @ file:///croot/jinja2_1730902924303/work
-joblib @ file:///croot/joblib_1718217211762/work
+joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1714665484399/work
 jsonpatch @ file:///croot/jsonpatch_1714483231291/work
 jsonpointer==2.1
 jupyter_client @ file:///home/conda/feedstock_root/build_artifacts/jupyter_client_1726610684920/work
@@ -52,6 +54,7 @@ menuinst @ file:///croot/menuinst_1723567589013/work
 mkl-service==2.4.0
 mkl_fft @ file:///io/mkl313/mkl_fft_1730824109137/work
 mkl_random @ file:///io/mkl313/mkl_random_1730823916628/work
+mysqlclient @ file:///home/conda/feedstock_root/build_artifacts/mysqlclient_1726283577995/work
 nest_asyncio @ file:///home/conda/feedstock_root/build_artifacts/nest-asyncio_1705850609492/work
 nltk @ file:///croot/nltk_1724427688180/work
 numexpr @ file:///croot/numexpr_1730215937391/work

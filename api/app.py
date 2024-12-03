@@ -4,27 +4,40 @@
 from flask import Flask
 from os import getenv
 from flask import Flask, jsonify, make_response
-from flask_restful import Api
 import joblib
+from .Storage import storage
+from flask_restful import Api
 
 
 # create the app instance
 app = Flask(__name__)
+
 # load the model
 # model = joblib.load('random_forest_model.pkl')
-api = Api(app)
-
-from .core.views.interface import IssueList
-
-api.add_resource(IssueList, '/status')
 
 @app.errorhandler(404)
 def page_not_found(e):
     """json 404 page"""
-    return make_response(jsonify({"error": "Resource (enpoint Not) found"}), 404)
+    return make_response(jsonify({"error": "Resource (endpoint Not) found"}), 404)
+
+@app.teardown_appcontext
+def teardown(self) -> None:
+    """Close the storage session"""
+    storage.close()
+
+@app.errorhandler(400)
+def handle_bad_request(e):
+    """json 400 page"""
+    return (jsonify({'error': 'Bad request'}))
+
+# setup the API and the endpoints
+api = Api(app)
+from .core.views.interface import *
+
+api.add_resource(IssueList, '/')
 
 # run this file to run the app
 if __name__ == "__main__":
-    host = getenv("HH_API_HOST", "0.0.0.0")
-    port = int(getenv("HH_API_PORT", "5000"))
+    host = getenv("TICKET_API_HOST", "0.0.0.0")
+    port = int(getenv("TICKET_API_PORT", "5000"))
     app.run(host, port=port, threaded=True, debug=True)
