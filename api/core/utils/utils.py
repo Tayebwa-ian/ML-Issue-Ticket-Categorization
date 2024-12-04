@@ -2,6 +2,8 @@
 """utility module"""
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import OneHotEncoder
+import joblib
+import os
 from scipy.sparse import hstack
 
 
@@ -47,3 +49,26 @@ def data_preprocessor(data):
                 ])
 
     return X
+
+def interpret_prediction(prediction: int) -> str:
+    """
+    Takes the prediction as anumber and returns the string equivalent of that number
+    Params:
+        prediction: the predictiopn value to change into a string
+    Returns: A string representation of the prediction
+    """
+    if prediction == 0:
+        return "Bug"
+    elif prediction == 1:
+        return "Enhancement"
+    else:
+        return "Question"
+    
+def load_model():
+    """
+    Simply load the ML model and return its instance
+    """
+    current_dir = os.path.dirname(__file__)
+    model_path = os.path.join(current_dir, 'random_forest.pkl')
+
+    return joblib.load(model_path)

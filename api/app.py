@@ -4,16 +4,12 @@
 from flask import Flask
 from os import getenv
 from flask import Flask, jsonify, make_response
-import joblib
 from .Storage import storage
 from flask_restful import Api
 
 
 # create the app instance
 app = Flask(__name__)
-
-# load the model
-# model = joblib.load('random_forest_model.pkl')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -34,7 +30,7 @@ def handle_bad_request(e):
 api = Api(app)
 from .core.views.interface import *
 
-api.add_resource(IssueList, '/')
+api.add_resource(PredictList, '/api/predict')
 
 # run this file to run the app
 if __name__ == "__main__":

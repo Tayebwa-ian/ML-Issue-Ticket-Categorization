@@ -1,0 +1,23 @@
+stages:
+   - build
+   - test
+   - deploy
+
+ build_job:
+   stage: build
+   script:
+     - echo "Building the project..."
+     - echo "Build complete."
+
+test_job:
+   stage: build
+   script:
+     - echo "Testing the project..."
+     - sleep 5
+     - echo "Test complete."
+
+ deploy_job:
+   stage: deploy
+   script:
+     - echo "Deploying the project..."
+     - echo "Deploy complete."

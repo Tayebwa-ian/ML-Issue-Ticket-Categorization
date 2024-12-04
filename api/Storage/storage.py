@@ -47,10 +47,10 @@ class Issue(Base):
 
     def get(self, id):
         """
-        Retrieve one object based on cls and id
+        Retrieve one object based on id
         Args:
             id: Id of the object
-        Return: object based on the class and its ID, or None
+        Return: object based on its ID, or None
         """
         return self.query.get(id)
     
@@ -65,14 +65,16 @@ class Issue(Base):
                                     self.id, self_dict)
         return (rep)
     
-    def update(self, **kwargs):
+    def update(self, id, **kwargs):
         """Update an object in the database
         Args:
             kwargs: a dictionary of fields to update and their new values
         """
+        obj = self.get(id)
         if kwargs:
             for field in kwargs.keys():
-                if hasattr(self, field):
-                        setattr(self, field, kwargs[field])
-            self.updated_at = datetime.now()
+                if hasattr(obj, field):
+                        setattr(obj, field, kwargs[field])
+            obj.updated_at = datetime.now()
             storage.save()
+        return obj
