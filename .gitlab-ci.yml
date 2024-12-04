@@ -10,7 +10,7 @@ stages:
      - echo "Build complete."
 
 test_job:
-   stage: build
+   stage: test
    script:
      - echo "Testing the project..."
      - sleep 5
