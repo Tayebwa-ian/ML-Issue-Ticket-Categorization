@@ -9,21 +9,21 @@ variables:
    MYSQL_DATABASE: ticket_test_db
    CONDA_ENV_NAME: ticket_env
 
-# Define a job to set up the environment
-setup_mysql:
-   image: mysql:latest  # Use MySQL image to create the database
-   stage: setup
-   script:
-      - echo "Setting up MySQL"
-      - mysql --version
-      - service mysql start
-      - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
-      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
-      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
+# Use a lightweight Python image with Conda support
+image: continuumio/miniconda3:latest
+
+before_script:
+# Update and install necessary dependencies
+   - apt-get update && apt-get install -y mysql-server
+   - echo "Setting up MySQL"
+   - mysql --version
+   - service mysql start
+   - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
+   - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
+   - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
 
 # Define a job to install dependencies with Conda
 install_dependencies:
-   image: continuumio/miniconda3  # Use a Miniconda image for managing dependencies
    stage: setup
    script:
       - echo "Setting up Conda environment"
@@ -31,10 +31,11 @@ install_dependencies:
       - source activate $CONDA_ENV_NAME  # Activate the environment
       - pip install -r requirements.txt  # Install Python dependencies (make sure to have this file)
       - conda list  # Check installed dependencies
+   dependencies:
+      - setup_mysql
 
 # Define the job to run tests
 run_tests:
-   image: continuumio/miniconda3  # Same Miniconda image for consistency
    stage: test
    script:
       - echo "Running tests"
