@@ -13,7 +13,7 @@ variables:
 image: continuumio/miniconda3:latest
 
 before_script:
-# Update and install necessary dependencies
+   # Update and install necessary dependencies
    - apt-get update && apt-get install -y mysql-server
    - echo "Setting up MySQL"
    - mysql --version
