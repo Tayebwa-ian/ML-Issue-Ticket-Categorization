@@ -31,6 +31,7 @@ api = Api(app)
 from .core.views.interface import *
 
 api.add_resource(PredictList, '/api/predict')
+api.add_resource(CorrectList, '/api/correct/<id>')
 
 # run this file to run the app
 if __name__ == "__main__":

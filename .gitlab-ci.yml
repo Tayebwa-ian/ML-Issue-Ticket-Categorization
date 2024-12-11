@@ -1,23 +1,51 @@
 stages:
-   - build
+   - setup
    - test
-   - deploy
 
-build_job:
-   stage: build
+variables:
+   MYSQL_ROOT_PASSWORD: root_password  # MySQL root password for setup
+   MYSQL_USER: ticket_test
+   MYSQL_PASSWORD: ticket_test_pwd
+   MYSQL_DATABASE: ticket_test_db
+   CONDA_ENV_NAME: ticket_env
+
+# Define a job to set up the environment
+setup_mysql:
+   image: mysql:latest  # Use MySQL image to create the database
+   stage: setup
    script:
-     - echo "Building the project..."
-     - echo "Build complete."
+      - echo "Setting up MySQL"
+      - mysql --version
+      - service mysql start
+      - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
+      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
+      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
 
-test_job:
+# Define a job to install dependencies with Conda
+install_dependencies:
+   image: continuumio/miniconda3  # Use a Miniconda image for managing dependencies
+   stage: setup
+   script:
+      - echo "Setting up Conda environment"
+      - conda create -n $CONDA_ENV_NAME python=3.8 -y  # Create Conda environment with Python 3.8 (modify if needed)
+      - source activate $CONDA_ENV_NAME  # Activate the environment
+      - pip install -r requirements.txt  # Install Python dependencies (make sure to have this file)
+      - conda list  # Check installed dependencies
+
+# Define the job to run tests
+run_tests:
+   image: continuumio/miniconda3  # Same Miniconda image for consistency
    stage: test
    script:
-     - echo "Testing the project..."
-     - sleep 5
-     - echo "Test complete."
-
-deploy_job:
-   stage: deploy
-   script:
-     - echo "Deploying the project..."
-     - echo "Deploy complete."
+      - echo "Running tests"
+      - source activate $CONDA_ENV_NAME  # Activate the Conda environment
+      - export TICKET_ENV=test  # Set environment variables
+      - export TICKET_MYSQL_USER=$MYSQL_USER
+      - export TICKET_MYSQL_PWD=$MYSQL_PASSWORD
+      - export TICKET_MYSQL_HOST=localhost
+      - export TICKET_MYSQL_DB=$MYSQL_DATABASE
+      - python3 -m unittest  # Run the tests
+   dependencies:
+      - install_dependencies  # Ensure this job runs after dependencies are installed
+   after_script:
+      - deactivate  # Deactivate the Conda environment after tests are done

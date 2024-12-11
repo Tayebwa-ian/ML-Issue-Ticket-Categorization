@@ -11,12 +11,15 @@ from ...Storage.storage import Issue
 # load the model
 model = load_model()
 
+
 issue_schema = IssueSchema(unknown=EXCLUDE)
 issues_schema = IssueSchema(many=True)
 
 
 class PredictList(Resource):
-    """Implements requests to for model predictions and stores them in database"""
+    """Implements requests to for model predictions
+        and stores them in database
+    """
     def get(self):
         """connection prediction endpoint"""
         response = {
@@ -24,7 +27,7 @@ class PredictList(Resource):
             "message": "connection to prediction endpoint is successful"
         }
         return make_response(jsonify(response), 200)
-    
+
     def post(self):
         """retrieve information from the request object.
             ** pass the information to the model for prediction
@@ -42,14 +45,15 @@ class PredictList(Resource):
             }
             return make_response(jsonify(responseobject), 403)
         X = data_preprocessor(data)
-        prediction = model.predict(X) # make a prediction
+        prediction = model.predict(X)  # make a prediction
         prediction = interpret_prediction(prediction)
         data['prediction'] = prediction
         new_issue = Issue(**data)
         new_issue.save()
 
         return issue_schema.dump(new_issue), 201
-    
+
+
 class CorrectList(Resource):
     """Implements requests to correct model predictions"""
     def get(self, id):
@@ -59,7 +63,7 @@ class CorrectList(Resource):
             "message": "connection to correction endpoint is successful"
         }
         return make_response(jsonify(response), 200)
-    
+
     def put(self, id):
         """
         captured the correct prediction and insert it in the database

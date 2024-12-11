@@ -14,7 +14,7 @@ def data_preprocessor(data):
         data: features from the raw data that are be be processed
     Return: preprocessed features into a single dataset
     """
-    
+
     # TF-IDF Vectorizers for title and body
     title_vectorizer = TfidfVectorizer(stop_words='english')
     body_vectorizer = TfidfVectorizer(stop_words='english')
@@ -30,10 +30,14 @@ def data_preprocessor(data):
     data['issue_body_length'] = data['issue_body'].apply(len)
     error_words = ['error', 'bug']
     enhance_words = ['feature', 'update', 'enhance', 'add']
-    data['possible_title_error'] = data['issue_title'].apply(lambda x: int(any(word in x.lower() for word in error_words)))
-    data['possible_body_error'] = data['issue_body'].apply(lambda x: int(any(word in x.lower() for word in error_words)))
-    data['possible_title_update'] = data['issue_title'].apply(lambda x: int(any(word in x.lower() for word in enhance_words)))
-    data['possible_body_update'] = data['issue_body'].apply(lambda x: int(any(word in x.lower() for word in enhance_words)))
+    data['possible_title_error'] = data['issue_title'].apply(
+        lambda x: int(any(word in x.lower() for word in error_words)))
+    data['possible_body_error'] = data['issue_body'].apply(
+        lambda x: int(any(word in x.lower() for word in error_words)))
+    data['possible_title_update'] = data['issue_title'].apply(
+        lambda x: int(any(word in x.lower() for word in enhance_words)))
+    data['possible_body_update'] = data['issue_body'].apply(
+        lambda x: int(any(word in x.lower() for word in enhance_words)))
 
     # combine all the features
     X = hstack([author,
@@ -50,9 +54,11 @@ def data_preprocessor(data):
 
     return X
 
+
 def interpret_prediction(prediction: int) -> str:
     """
-    Takes the prediction as anumber and returns the string equivalent of that number
+    Takes the prediction as anumber
+    returns the string equivalent of that number
     Params:
         prediction: the predictiopn value to change into a string
     Returns: A string representation of the prediction
@@ -63,7 +69,8 @@ def interpret_prediction(prediction: int) -> str:
         return "Enhancement"
     else:
         return "Question"
-    
+
+
 def load_model():
     """
     Simply load the ML model and return its instance
