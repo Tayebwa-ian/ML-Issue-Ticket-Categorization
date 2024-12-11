@@ -31,8 +31,6 @@ install_dependencies:
       - source activate $CONDA_ENV_NAME  # Activate the environment
       - pip install -r requirements.txt  # Install Python dependencies (make sure to have this file)
       - conda list  # Check installed dependencies
-   dependencies:
-      - setup_mysql
 
 # Define the job to run tests
 run_tests:
