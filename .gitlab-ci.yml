@@ -7,15 +7,14 @@ variables:
    MYSQL_USER: ticket_test
    MYSQL_PASSWORD: ticket_test_pwd
    MYSQL_DATABASE: ticket_test_db
-   CONDA_ENV_NAME: ticket_env
+   APP_ENV_NAME: ticket_env
 
-image: continuumio/miniconda3:latest
+image: mysql:8.4.0-oraclelinux8
 
-install_MySQL_Server:
-   image: mysql:8.4.0-oraclelinux8  # Install MySQL server
+setup_MySQL_Server:
    stage: setup
    script:
-      - systemctl start mysql
+      - service mysql start
       - mysql --version
       - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run a script to create Database
       - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
@@ -25,19 +24,18 @@ install_MySQL_Server:
 install_dependencies:
    stage: setup
    script:
-      - echo "Setting up Conda environment"
-      - conda create -n $CONDA_ENV_NAME python=3.8 -y  # Create Conda environment with Python 3.8 (modify if needed)
-      - source activate $CONDA_ENV_NAME  # Activate the environment
+      - apt-get install python3
+      - pip install --upgrade pip
+      - python -m venv $APP_ENV_NAME
+      - source $APP_ENV_NAME/bin/activate  # Activate virtual environment
       - pip install -r requirements.txt  # Install Python dependencies (make sure to have this file)
-      - conda list  # Check installed dependencies
 
 # Define the job to run tests
 run_tests:
    stage: test
    script:
-      - pip install --upgrade pip
       - echo "Running tests"
-      - source activate $CONDA_ENV_NAME  # Activate the Conda environment
+      - source $APP_ENV_NAME/bin/activate  # Activate virtual environment
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_USER=$MYSQL_USER
       - export TICKET_MYSQL_PWD=$MYSQL_PASSWORD
@@ -47,6 +45,6 @@ run_tests:
    dependencies:
       # Ensure this job runs after dependencies are installed
       - install_dependencies
-      - install_MySQL_Server
+      - setup_MySQL_Server
    after_script:
       - deactivate  # Deactivate the Conda environment after tests are done
