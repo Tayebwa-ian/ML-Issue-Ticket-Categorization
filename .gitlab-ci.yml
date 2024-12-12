@@ -21,6 +21,7 @@ setup_MySQL_Server:
 
 # Define a job to install dependencies with Conda
 install_dependencies:
+   image: python:3.11-slim-buster
    stage: setup
    script:
       - pip install --upgrade pip
