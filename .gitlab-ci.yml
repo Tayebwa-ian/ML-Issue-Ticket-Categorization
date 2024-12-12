@@ -14,7 +14,7 @@ image: python:3.11-slim-buster
 before_script:
    # Update and install necessary dependencies
    - pip install --upgrade pip
-   - apt-get mysql-serverr
+   - sudo apt-get mysql-serverr
    - echo "Setting up MySQL"
    - systemctl start mysql
    - mysql --version
