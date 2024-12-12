@@ -40,6 +40,5 @@ run_tests:
    dependencies:
       # Ensure this job runs after dependencies are installed
       - install_dependencies
-      - setup_MySQL_Server
    after_script:
       - deactivate  # Deactivate the Conda environment after tests are done
