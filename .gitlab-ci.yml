@@ -27,7 +27,7 @@ install_dependencies:
       - pip install --upgrade pip
       - conda create -n $CONDA_ENV_NAME python=3.8 -y  # Create Conda environment with Python 3.8 (modify if needed)
       - source activate $CONDA_ENV_NAME  # Activate the environment
-      - pip install -q -r requirements.txt  # Install Python dependencies (make sure to have this file)
+      - conda env create -f requirements.yml  # Install dependencies
       - conda list  # Check installed dependencies
 # Define the job to run tests
 run_tests:
