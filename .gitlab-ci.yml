@@ -15,14 +15,12 @@ before_script:
    # Update and install necessary dependencies
    - pip install --upgrade pip
    - apt-get clean
-   - apt-get update
    - apt-get install -y mysql-server
    - systemctl start mysql
    - mysql --version
    - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
    - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
    - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
-   - apt-get curl
 
 # Define a job to install dependencies with Conda
 install_dependencies:
