@@ -10,11 +10,12 @@ variables:
    CONDA_ENV_NAME: ticket_env
 
 # Use a lightweight Python image with Conda support
-image: continuumio/miniconda3:latest
+image: alpine:latest
 
 before_script:
    # Update and install necessary dependencies
    - sudo apt-get update
+   - sudo apt-get install curl
    - sudo apt-get install -y mysql-server
    - echo "Setting up MySQL"
    - sudo systemctl start mysql
@@ -22,6 +23,11 @@ before_script:
    - sudo mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
    - sudo mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
    - sudo mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
+   - curl -O https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh  # Download conda
+   - bash Anaconda3–2020.11-Linux-x86_64.sh
+   - source ~/.bashrc  # Install conda
+   - conda update conda  # Update conda
+   - conda --version  # Check conda version
 
 # Define a job to install dependencies with Conda
 install_dependencies:
