@@ -9,11 +9,13 @@ variables:
    MYSQL_DATABASE: ticket_test_db
    CONDA_ENV_NAME: ticket_env
 
+image: docker:latest
+
 before_script:
    # Update and install necessary dependencies
-   - apt-get update
-   - apt-get curl
-   - apt-get mysql-serverr
+   - sudo apt-get update
+   - sudo apt-get curl
+   - sudo apt-get mysql-serverr
    - echo "Setting up MySQL"
    - systemctl start mysql
    - mysql --version
