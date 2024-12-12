@@ -14,7 +14,6 @@ image: mysql:8.4.0-oraclelinux8
 setup_MySQL_Server:
    stage: setup
    script:
-      - service mysql start
       - mysql --version
       - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run a script to create Database
       - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
@@ -24,7 +23,7 @@ setup_MySQL_Server:
 install_dependencies:
    stage: setup
    script:
-      - apt-get install python3
+      - apk install python3
       - pip install --upgrade pip
       - python -m venv $APP_ENV_NAME
       - source $APP_ENV_NAME/bin/activate  # Activate virtual environment
