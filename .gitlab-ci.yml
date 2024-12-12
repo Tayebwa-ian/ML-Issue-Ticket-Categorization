@@ -11,22 +11,24 @@ variables:
 
 image: python:3.11-slim-buster
 
+services:
+  - mysql:5.7
+
 before_script:
    # Update and install necessary dependencies
    - pip install --upgrade pip
-   - sudo apt-get mysql-serverr
-   - echo "Setting up MySQL"
+   - pip install --upgrade pip
+   - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+   - bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda
+   - export PATH="/opt/conda/bin:$PATH"
+   - conda config --set always_yes yes --set changeps1 no
+   - conda update -n base -c defaults conda
    - systemctl start mysql
    - mysql --version
    - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
    - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
    - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
    - apt-get curl
-   - curl -O https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh  # Download conda
-   - bash Anaconda3–2020.11-Linux-x86_64.sh
-   - source ~/.bashrc  # Install conda
-   - conda update conda  # Update conda
-   - conda --version  # Check conda version
 
 # Define a job to install dependencies with Conda
 install_dependencies:
