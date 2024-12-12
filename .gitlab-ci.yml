@@ -9,8 +9,7 @@ variables:
    MYSQL_DATABASE: ticket_test_db
    CONDA_ENV_NAME: ticket_env
 
-services:
-  - mysql:5.7
+image: python:3.11-slim-buster
 
 before_script:
    # Update and install necessary dependencies
