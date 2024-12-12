@@ -1,3 +1,4 @@
+name: ticket_env
 channels:
   - defaults
   - conda-forge
