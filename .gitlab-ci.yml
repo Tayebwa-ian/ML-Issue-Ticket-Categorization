@@ -9,12 +9,11 @@ variables:
    MYSQL_DATABASE: ticket_test_db
    CONDA_ENV_NAME: ticket_env
 
-image: ubuntu:latest
+image: python:3.11-slim-buster
 
 before_script:
    # Update and install necessary dependencies
-   - apt-get update
-   - apt-get curl
+   - pip install --upgrade pip
    - apt-get mysql-serverr
    - echo "Setting up MySQL"
    - systemctl start mysql
@@ -22,6 +21,7 @@ before_script:
    - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
    - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
    - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
+   - apt-get curl
    - curl -O https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh  # Download conda
    - bash Anaconda3–2020.11-Linux-x86_64.sh
    - source ~/.bashrc  # Install conda
