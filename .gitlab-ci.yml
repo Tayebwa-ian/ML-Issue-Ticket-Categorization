@@ -13,7 +13,7 @@ image: ubuntu:latest
 
 before_script:
    # Update and install necessary dependencies
-   - sudo apt-get update
+   - apt-get update
    - apt-get curl
    - apt-get mysql-serverr
    - echo "Setting up MySQL"
