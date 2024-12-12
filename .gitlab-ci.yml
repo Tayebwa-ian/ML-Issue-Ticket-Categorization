@@ -23,7 +23,6 @@ setup_MySQL_Server:
 install_dependencies:
    stage: setup
    script:
-      - apk install python3
       - pip install --upgrade pip
       - python -m venv $APP_ENV_NAME
       - source $APP_ENV_NAME/bin/activate  # Activate virtual environment
