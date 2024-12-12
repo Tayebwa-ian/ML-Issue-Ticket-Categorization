@@ -9,16 +9,6 @@ variables:
    MYSQL_DATABASE: ticket_test_db
    APP_ENV_NAME: ticket_env
 
-image: mysql:8.4.0-oraclelinux8
-
-setup_MySQL_Server:
-   stage: setup
-   script:
-      - mysql --version
-      - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run a script to create Database
-      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
-      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
-
 # Define a job to install dependencies with Conda
 install_dependencies:
    image: continuumio/miniconda3:latest
@@ -29,6 +19,12 @@ install_dependencies:
       - source activate $CONDA_ENV_NAME  # Activate the environment
       - conda env create -f requirements.yml  # Install dependencies
       - conda list  # Check installed dependencies
+      - apk install mysql-server
+      - mysql --version
+      - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run a script to create Database
+      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
+      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
+
 # Define the job to run tests
 run_tests:
    stage: test
