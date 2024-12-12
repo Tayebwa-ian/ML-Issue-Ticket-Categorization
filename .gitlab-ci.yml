@@ -21,20 +21,20 @@ setup_MySQL_Server:
 
 # Define a job to install dependencies with Conda
 install_dependencies:
-   image: python:3.11-slim-buster
+   image: continuumio/miniconda3:latest
    stage: setup
    script:
       - pip install --upgrade pip
-      - python -m venv $APP_ENV_NAME
-      - source $APP_ENV_NAME/bin/activate  # Activate virtual environment
+      - conda create -n $CONDA_ENV_NAME python=3.8 -y  # Create Conda environment with Python 3.8 (modify if needed)
+      - source activate $CONDA_ENV_NAME  # Activate the environment
       - pip install -r requirements.txt  # Install Python dependencies (make sure to have this file)
-
+      - conda list  # Check installed dependencies
 # Define the job to run tests
 run_tests:
    stage: test
    script:
       - echo "Running tests"
-      - source $APP_ENV_NAME/bin/activate  # Activate virtual environment
+      - source activate $CONDA_ENV_NAME  # Activate the environment
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_USER=$MYSQL_USER
       - export TICKET_MYSQL_PWD=$MYSQL_PASSWORD
