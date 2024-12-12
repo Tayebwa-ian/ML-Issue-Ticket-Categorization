@@ -15,8 +15,8 @@ image: alpine:latest
 before_script:
    # Update and install necessary dependencies
    - apk update
-   - apk install curl
-   - apk install -y mysql-server
+   - apk add --no-cache curl
+   - apk add --no-cache mysql-serverr
    - echo "Setting up MySQL"
    - systemctl start mysql
    - mysql --version
