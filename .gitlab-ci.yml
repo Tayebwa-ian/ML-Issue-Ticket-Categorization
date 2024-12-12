@@ -9,21 +9,24 @@ variables:
    MYSQL_DATABASE: ticket_test_db
    APP_ENV_NAME: ticket_env
 
+services:
+  - mysql:8.4.0-oraclelinux8
+
 # Define a job to install dependencies with Conda
 install_dependencies:
    image: continuumio/miniconda3:latest
    stage: setup
    script:
       - pip install --upgrade pip
-      - conda create -n $CONDA_ENV_NAME python=3.8 -y  # Create Conda environment with Python 3.8 (modify if needed)
-      - source activate $CONDA_ENV_NAME  # Activate the environment
+      - conda create -n $APP_ENV_NAME python=3.8 -y  # Create Conda environment with Python 3.8 (modify if needed)
+      - source activate $APP_ENV_NAME  # Activate the environment
       - conda env create -f requirements.yml  # Install dependencies
       - conda list  # Check installed dependencies
-      - apt-get install mysql-client
-      - apt-get install mysql-server
+      - apt-get update
+      - apt-get install -y mysql-client
       - mysql --version
       - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run a script to create Database
-      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
+      - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;"
       - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW TABLES;"  # Verify the database
 
 # Define the job to run tests
@@ -31,7 +34,8 @@ run_tests:
    stage: test
    script:
       - echo "Running tests"
-      - source activate $CONDA_ENV_NAME  # Activate the environment
+      - source /opt/conda/etc/profile.d/conda.sh
+      - source activate $APP_ENV_NAME  # Activate the environment
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_USER=$MYSQL_USER
       - export TICKET_MYSQL_PWD=$MYSQL_PASSWORD
@@ -42,4 +46,4 @@ run_tests:
       # Ensure this job runs after dependencies are installed
       - install_dependencies
    after_script:
-      - deactivate  # Deactivate the Conda environment after tests are done
+      - conda deactivate  # Deactivate the Conda environment after tests are done
