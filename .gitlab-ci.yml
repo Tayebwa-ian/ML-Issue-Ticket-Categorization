@@ -9,9 +9,6 @@ variables:
    MYSQL_DATABASE: ticket_test_db
    CONDA_ENV_NAME: ticket_env
 
-# Use a lightweight Python image with Conda support
-image: ubuntu:latest
-
 before_script:
    # Update and install necessary dependencies
    - apt-get update
