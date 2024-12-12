@@ -14,7 +14,7 @@ image: continuumio/miniconda3:latest
 before_script:
    # Update and install necessary dependencies
    - pip install --upgrade pip
-   - sudo apt-get clean
+   - apt-get clean
    - apt-get update
    - apt-get install -y mysql-server
    - systemctl start mysql
