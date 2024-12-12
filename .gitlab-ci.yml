@@ -14,8 +14,8 @@ image: continuumio/miniconda3:latest
 before_script:
    # Update and install necessary dependencies
    - pip install --upgrade pip
-   - sudo apt update
-   - sudo apt install -y mysql-server
+   - apt update
+   - apt install -y mysql-server
    - systemctl start mysql
    - mysql --version
    - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run your SQL script
