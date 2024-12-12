@@ -14,9 +14,9 @@ image: alpine:latest
 
 before_script:
    # Update and install necessary dependencies
-   - apt-get update
-   - apt-get install curl
-   - apt-get install -y mysql-server
+   - apk update
+   - apk install curl
+   - apk install -y mysql-server
    - echo "Setting up MySQL"
    - systemctl start mysql
    - mysql --version
