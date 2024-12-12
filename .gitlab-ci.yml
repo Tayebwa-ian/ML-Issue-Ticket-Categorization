@@ -19,7 +19,7 @@ install_dependencies:
       - source activate $CONDA_ENV_NAME  # Activate the environment
       - conda env create -f requirements.yml  # Install dependencies
       - conda list  # Check installed dependencies
-      - apk install mysql-server
+      - apt-get install mysql-server
       - mysql --version
       - mysql -u root -p$MYSQL_ROOT_PASSWORD < create_test_db.sql  # Run a script to create Database
       - mysql -u root -p$MYSQL_ROOT_PASSWORD -e "USE $MYSQL_DATABASE;
