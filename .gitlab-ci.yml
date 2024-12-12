@@ -13,9 +13,9 @@ image: docker:latest
 
 before_script:
    # Update and install necessary dependencies
-   - sudo apt-get update
-   - sudo apt-get curl
-   - sudo apt-get mysql-serverr
+   - apt-get update
+   - apt-get curl
+   - apt-get mysql-serverr
    - echo "Setting up MySQL"
    - systemctl start mysql
    - mysql --version
