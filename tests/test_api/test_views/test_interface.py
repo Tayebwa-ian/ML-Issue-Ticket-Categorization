@@ -23,6 +23,24 @@ class Test_interface(unittest.TestCase):
         cls.predict_fun_names = [name for name, _ in
                          inspect.getmembers(api.core.views.interface.PredictList,
                                             inspect.ismethod)]
+        issue1 = {
+            "title": "Contrast for Select files to upload button is too low",
+            "body": "The contrast ratio for the Select files to upload is on 2.69 and does not meet the minimum for WCAG AA.",
+            "author": "MEMBER",
+        }
+
+        issue2 = {
+            "title": "",
+            "body": "",
+            "author": "",
+        }
+
+        issue3 = {
+            "title": "",
+            "body": "",
+            "author": "",
+        }
+        cls.res1 = cls.client.post('/api/core/predict', json=issue1)
 
     def test_documentation(self) -> None:
         """Test if module, class and methods documentations exist"""
@@ -49,20 +67,18 @@ class Test_interface(unittest.TestCase):
         self.assertEqual(result.total_errors, 0, "PEP 8 violations found")
 
     def test_predict_list_get(self) -> None:
-        """Test the GET /api/predict endpoint."""
-        response = self.client.get('/api/predict')
+        """Test the GET /api/core/predict endpoint."""
+        response = self.client.get('/api/core/predict')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
-        self.assertEqual(data['status'], 'success')
-        self.assertIn('connection to prediction endpoint is successful', data['message'])
+        self.assertEqual(len(data), 1)
     
     def test_correct_list_get(self):
-        """Test the GET /api/correct/<id> endpoint."""
-        response = self.client.get('/api/correct/1')
+        """Test the GET /api/core/correct/<id> endpoint."""
+        response = self.client.get('/api/core/issues/1')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
-        self.assertEqual(data['status'], 'success')
-        self.assertIn('connection to correction endpoint is successful', data['message'])
+        self.assertEqual(data.get('author'), 'MEMBER')
 
 if __name__ == '__main__':
     unittest.main()

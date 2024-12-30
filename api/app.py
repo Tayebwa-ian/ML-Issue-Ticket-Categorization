@@ -6,10 +6,12 @@ from os import getenv
 from flask import Flask, jsonify, make_response
 from .Storage import storage
 from flask_restful import Api
+from flask_cors import CORS
 
 
 # create the app instance
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -30,8 +32,8 @@ def handle_bad_request(e):
 api = Api(app)
 from .core.views.interface import *
 
-api.add_resource(PredictList, '/api/predict')
-api.add_resource(CorrectList, '/api/correct/<id>')
+api.add_resource(PredictList, '/api/core/predict')
+api.add_resource(CorrectList, '/api/core/issues/<id>')
 
 # run this file to run the app
 if __name__ == "__main__":
