@@ -29,4 +29,4 @@ run_tests:
       # Ensure this job runs after dependencies are installed
       - install_dependencies
    after_script:
-      - conda deactivate  # Deactivate the Conda environment after tests are done
+      - deactivate  # Deactivate the Conda environment after tests are done
