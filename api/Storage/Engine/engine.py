@@ -21,15 +21,22 @@ class Engine:
         TICKET_MYSQL_HOST = getenv('TICKET_MYSQL_HOST')
         TICKET_MYSQL_DB = getenv('TICKET_MYSQL_DB')
         TICKET_ENV = getenv('TICKET_ENV')
-        exec_db = 'mysql+mysqldb://{}:{}@{}/{}'.format(
-                                            TICKET_MYSQL_USER,
-                                            TICKET_MYSQL_PWD,
-                                            TICKET_MYSQL_HOST,
-                                            TICKET_MYSQL_DB
-                                                )
+        if TICKET_ENV != 'test':
+            exec_db = 'mysql+mysqldb://{}:{}@{}/{}'.format(
+                                                TICKET_MYSQL_USER,
+                                                TICKET_MYSQL_PWD,
+                                                TICKET_MYSQL_HOST,
+                                                TICKET_MYSQL_DB
+                                                    )
+        else:  # Configure an SQLITE DB instance for testing
+            exec_db = f'sqlite:///{TICKET_MYSQL_DB}'
+        # Create the engine
         self.__engine = create_engine(exec_db, pool_pre_ping=True)
+
         if TICKET_ENV == 'test':
+            # Drop all tables to ensure a clean slate for testing
             Base.metadata.drop_all(self.__engine)
+            Base.metadata.create_all(self.__engine)  # Recreate tables for testing
 
     def new(self, obj):
         """
