@@ -11,8 +11,6 @@ install_dependencies:
    stage: setup
    script:
       - pip install --upgrade pip
-      - conda create -n $APP_ENV_NAME python=3.8 -y  # Create Conda environment with Python 3.8 (modify if needed)
-      - source activate $APP_ENV_NAME  # Activate the environment
       - conda env create -f requirements.yml  # Install dependencies
       - conda list  # Check installed dependencies
 
