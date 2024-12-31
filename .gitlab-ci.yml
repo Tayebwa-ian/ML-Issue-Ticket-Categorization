@@ -11,15 +11,18 @@ install_dependencies:
    image: continuumio/miniconda3:latest
    stage: setup
    script:
+      - source /opt/conda/etc/profile.d/conda.sh
       - pip install --upgrade pip
       - conda env create -f requirements.yml --name $APP_ENV  # Install dependencies
       - conda list  # Check installed dependencies
 
 # Define the job to run tests
 run_tests:
+   image: continuumio/miniconda3:latest
    stage: test
    script:
       - echo "Running tests"
+      - source /opt/conda/etc/profile.d/conda.sh
       - conda activate $APP_ENV  # Activate the environment
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_DB=$MYSQL_DATABASE
