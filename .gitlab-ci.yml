@@ -23,6 +23,7 @@ run_tests:
    script:
       - echo "Running tests"
       - source /opt/conda/etc/profile.d/conda.sh
+      - conda env create -f requirements.yml --name $APP_ENV  # Install dependencies
       - conda activate $APP_ENV  # Activate the environment
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_DB=$MYSQL_DATABASE
@@ -30,3 +31,5 @@ run_tests:
    dependencies:
       # Ensure this job runs after dependencies are installed
       - install_dependencies
+   after_script:
+      - conda deactivate
