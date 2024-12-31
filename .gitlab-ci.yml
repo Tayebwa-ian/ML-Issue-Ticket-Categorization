@@ -4,6 +4,7 @@ stages:
 
 variables:
    MYSQL_DATABASE: ticket_test_db
+   APP_ENV: 'ai_env'
 
 # Define a job to install dependencies with Conda
 install_dependencies:
@@ -11,7 +12,7 @@ install_dependencies:
    stage: setup
    script:
       - pip install --upgrade pip
-      - conda env create -f requirements.yml  # Install dependencies
+      - conda env create -f requirements.yml --name $APP_ENV  # Install dependencies
       - conda list  # Check installed dependencies
 
 # Define the job to run tests
@@ -20,7 +21,7 @@ run_tests:
    script:
       - echo "Running tests"
       - source /opt/conda/etc/profile.d/conda.sh
-      - source activate base  # Activate the environment
+      - source activate $APP_ENV  # Activate the environment
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_DB=$MYSQL_DATABASE
       - python3 -m unittest  # Run the tests
