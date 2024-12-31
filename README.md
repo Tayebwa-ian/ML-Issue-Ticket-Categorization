@@ -1,6 +1,6 @@
 # WS2024 - Principles of AI Engineering Project (University of Passau)
 
-## Run API with Development Server (runs of MYSQL server based Databse):  
+## Run API with Development Server (runs with MYSQL server based Databse):  
 - [ ] Install conda and create a virtual enviroment
 - [ ] Install all depedences using requirements.yml file (conda env create -f requirements.yml)
 - [ ] Activate conda development environment (conda activate base)
@@ -12,7 +12,7 @@ conda env create -f requirements.yml
 conda activate base  
 TICKET_ENV=dev TICKET_MYSQL_USER=ticket_dev TICKET_MYSQL_PWD=ticket_dev_pwd TICKET_MYSQL_HOST=localhost TICKET_MYSQL_DB=ticket_dev_db python3 -m api.app
 ```
-## Running unit tests (runs of SQL Lite Database):  
+## Running unit tests (runs with SQL Lite Database):  
 ```
 conda env create -f requirements.yml  
 conda activate base  
