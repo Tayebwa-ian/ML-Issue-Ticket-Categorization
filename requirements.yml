@@ -1,8 +1,9 @@
 name: base
 channels:
-  - https://repo.anaconda.com/pkgs/main
-  - https://repo.anaconda.com/pkgs/r
+  - conda-forge
+  - defaults
 dependencies:
+  - python=3.12
   - conda==24.11.2
   - setuptools
   - pip
