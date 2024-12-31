@@ -1,24 +1,13 @@
 stages:
-   - setup
    - test
 
 variables:
    MYSQL_DATABASE: ticket_test_db
    APP_ENV: 'ai_env'
 
-# Define a job to install dependencies with Conda
-install_dependencies:
-   image: continuumio/miniconda3:latest
-   stage: setup
-   script:
-      - source /opt/conda/etc/profile.d/conda.sh
-      - pip install --upgrade pip
-      - conda env create -f requirements.yml --name $APP_ENV  # Install dependencies
-      - conda list  # Check installed dependencies
-
 # Define the job to run tests
 run_tests:
-   image: continuumio/miniconda3:latest
+   image: continuumio/miniconda3:latest  #  Docker Image to be used
    stage: test
    script:
       - echo "Running tests"
@@ -28,8 +17,4 @@ run_tests:
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_DB=$MYSQL_DATABASE
       - python3 -m unittest  # Run the tests
-   dependencies:
-      # Ensure this job runs after dependencies are installed
-      - install_dependencies
-   after_script:
       - conda deactivate
