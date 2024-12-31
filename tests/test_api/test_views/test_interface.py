@@ -90,7 +90,7 @@ class Test_interface(unittest.TestCase):
         # Check if the prediction id not none
         self.assertTrue(data.get('prediction'))
 
-    def test_correct_list_post(self):
+    def test_correct_list_put(self):
         "Test the PUT /api/core/issues/<id> endpoint."
         self.issue1['actual_label'] = 'Enhancement'
         self.issue2['actual_label'] = 'Bug'
