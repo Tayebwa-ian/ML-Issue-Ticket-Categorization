@@ -31,4 +31,5 @@ dependencies:
   - ydata-profiling
   - pycodestyle
   - flask-cors
+  - prometheus_client
 prefix: /home/passwd/miniconda3
