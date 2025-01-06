@@ -15,3 +15,4 @@ class IssueSchema(Schema):
     url = fields.Str()
     prediction = fields.Str()
     actual_label = fields.Str()
+    pred_confidence = fields.Float()

@@ -34,9 +34,11 @@ from .core.views.interface import *
 
 api.add_resource(PredictList, '/api/core/predict')
 api.add_resource(CorrectList, '/api/core/issues/<id>')
+api.add_resource(Monitoring, '/metrics')
 
 # run this file to run the app
 if __name__ == "__main__":
+    Monitoring.compute_details()  # Update metrics
     host = getenv("TICKET_API_HOST", "0.0.0.0")
     port = int(getenv("TICKET_API_PORT", "5000"))
     app.run(host, port=port, threaded=True, debug=True)

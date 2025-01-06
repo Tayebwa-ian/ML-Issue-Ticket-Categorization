@@ -1,7 +1,7 @@
 #!/usr/bin/python3"
 """Issue Model - Module"""
 from datetime import datetime
-from sqlalchemy import String, Column, Integer, DateTime, Text
+from sqlalchemy import String, Column, Integer, DateTime, Text, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -18,6 +18,8 @@ class Issue(Base):
         body: detailed description of the issue
         url: the url of the origin of the issue
         prediction: what the model predicted
+        actual_label: The real label of the issue
+        pred_confidence: the percentage to which the model is confident of the the prediction
     """
     __tablename__ = 'issues'
     id = Column(Integer, primary_key=True)
@@ -29,6 +31,7 @@ class Issue(Base):
     url = Column(String(200))
     prediction = Column(String(20), nullable=False)
     actual_label = Column(String(20))
+    pred_confidence = Column(Float())
 
     def __str__(self) -> str:
         """Return string representation of the object"""
