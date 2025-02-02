@@ -16,5 +16,6 @@ run_tests:
       - conda activate $APP_ENV  # Activate the environment
       - export TICKET_ENV=test  # Set environment variables
       - export TICKET_MYSQL_DB=$MYSQL_DATABASE
-      - python3 -m unittest  # Run the tests
+      - coverage run -m unittest discover  # Run the tests
+      - coverage html  # Generate coverage report in an html file
       - conda deactivate

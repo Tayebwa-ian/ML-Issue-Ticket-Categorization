@@ -39,6 +39,8 @@ export default function HorizontalCard({data, key}) {
                         <Typography variant="subtitle1" component="div">
                             Reported: {data.created_at}<br/>
                             Author: {data.author}<br/>
+                            <em>Probability: {data.pred_confidence}</em>
+                            <br />
                             <em>Predicted label: {data.prediction}</em>
                             <br />
                             <em>Actual label: {data.actual_label}</em>

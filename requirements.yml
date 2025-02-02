@@ -32,4 +32,6 @@ dependencies:
   - pycodestyle
   - flask-cors
   - prometheus_client
+  - langdetect
+  - coverage
 prefix: /home/passwd/miniconda3

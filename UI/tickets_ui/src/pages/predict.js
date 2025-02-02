@@ -14,8 +14,9 @@ function Predict() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await postUpdateDelete(`http://127.0.0.1:5000/api/core/issues`, formData);
-        navigate("/");
+        const { error } = await postUpdateDelete(`http://127.0.0.1:5000/api/core/predict`, formData);
+        if (error) alert(`Invalid Inputs`);
+        else navigate("/issues");
     };
 
     const handleChange = (event) => {
